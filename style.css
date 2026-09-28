@@ -1,0 +1,98 @@
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  background:radial-gradient(circle at 50% 42%,#4a0410 0,#150106 45%,#000 75%);
+  color:#f5c8d0;font-family:Georgia,'Times New Roman',serif;
+  display:grid;place-items:center;overflow:hidden;
+}
+.scene{display:flex;flex-direction:column;align-items:center;gap:18px}
+
+/* ---------- الوردة ---------- */
+.rose{position:relative;width:300px;height:400px}
+.stem{
+  position:absolute;left:50%;bottom:0;width:8px;height:0;transform:translateX(-50%);
+  background:linear-gradient(#2f9e4f,#186b32);border-radius:4px;z-index:0;
+  transition:height 1.2s ease;
+}
+.leaf{
+  position:absolute;width:64px;height:28px;z-index:1;
+  background:linear-gradient(135deg,#3cc063,#1b7a38);
+  border-radius:0 100% 0 100%;opacity:0;transform:scale(0);
+  transition:transform .8s ease 1s,opacity .8s ease 1s;
+}
+.l1{left:calc(50% - 66px);bottom:80px;transform-origin:right center}
+.l2{left:calc(50% + 4px);bottom:125px;transform:scale(0) scaleX(-1);transform-origin:left center}
+
+/* رأس الوردة: نقطة الأصل في مركز الزهرة */
+.flower{
+  position:absolute;left:50%;top:165px;width:0;height:0;z-index:2;
+  transform:scale(.4);transition:transform 1.4s cubic-bezier(.2,.8,.2,1) 1.1s;
+  filter:drop-shadow(0 0 28px rgba(255,20,60,.5));
+}
+
+/* ---------- البتلات ---------- */
+.petal{
+  position:absolute;opacity:0;
+  border-radius:48% 48% 42% 42% / 64% 64% 36% 36%;
+  background:radial-gradient(ellipse at 50% 12%,var(--hi) 0%,var(--mid) 58%,var(--lo) 100%);
+  box-shadow:inset 0 7px 12px rgba(255,140,160,.38),inset 0 -12px 18px rgba(50,0,10,.55);
+  transform-origin:50% 100%;
+  transform:rotate(0) scale(.2);
+  transition:transform 1.3s cubic-bezier(.2,.8,.2,1),opacity .5s ease;
+}
+.back {width:120px;height:125px;left:-60px;top:-118px;--hi:#e0173c;--mid:#a80020;--lo:#5c000f;--d:1.5s}
+.mid  {width:104px;height:110px;left:-52px;top:-104px;--hi:#ff3557;--mid:#c4002a;--lo:#7a0016;--d:1.7s}
+.inner{width:76px; height:84px; left:-38px;top:-82px; --hi:#ff5470;--mid:#d80a32;--lo:#8a0018;--d:1.9s}
+
+/* البتلات الأمامية تتدلى للأسفل وتغطي قاعدة الزهرة */
+.front{
+  width:132px;height:74px;left:-66px;top:-6px;transform-origin:50% 0;
+  border-radius:40% 40% 50% 50% / 30% 30% 70% 70%;
+  --hi:#ff4a68;--mid:#cf0a30;--lo:#7d0016;--d:2.1s;
+  box-shadow:inset 0 -8px 14px rgba(255,150,170,.35),inset 0 10px 16px rgba(50,0,10,.5);
+}
+.f1{--a:0deg;--s:1}
+.f2{--a:-32deg;--s:.9;left:-84px}
+.f3{--a:32deg; --s:.9;left:-48px}
+
+.back0{--a:-84deg}
+.back1{--a:-42deg}
+.back2{--a:0deg}
+.back3{--a:42deg}
+.back4{--a:84deg}
+.mid0{--a:-63deg}
+.mid1{--a:-31deg}
+.mid2{--a:31deg}
+.mid3{--a:63deg}
+.inner0{--a:-24deg}
+.inner1{--a:0deg}
+.inner2{--a:24deg}
+
+/* --------- الحالة المفتوحة (عند الضغط على الزر) --------- */
+#bloom:checked ~ .scene .stem{height:250px}
+#bloom:checked ~ .scene .leaf{opacity:1}
+#bloom:checked ~ .scene .l1{transform:scale(1) rotate(-15deg)}
+#bloom:checked ~ .scene .l2{transform:scale(1) scaleX(-1) rotate(-15deg)}
+#bloom:checked ~ .scene .flower{transform:scale(1)}
+#bloom:checked ~ .scene .petal{
+  opacity:1;transition-delay:var(--d);
+  transform:rotate(var(--a)) scale(1);
+}
+#bloom:checked ~ .scene .inner{transform:rotate(var(--a)) scale(.95) translateY(4px)}
+
+/* ---------- النص والزر ---------- */
+.msg{font-style:italic;letter-spacing:.06em;height:1.4em;opacity:0;transition:opacity 1s ease 2.8s}
+#bloom:checked ~ .scene .msg{opacity:1}
+
+.btn{
+  cursor:pointer;user-select:none;padding:14px 38px;border-radius:14px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,40,80,.35);
+  font:600 13px/1 system-ui,sans-serif;letter-spacing:.18em;color:#ffd0d8;
+  transition:background .3s,box-shadow .3s;
+}
+.btn:hover{background:rgba(255,40,80,.18);box-shadow:0 0 24px rgba(255,40,80,.35)}
+.btn .close{display:none}
+#bloom:checked ~ .scene .btn .open{display:none}
+#bloom:checked ~ .scene .btn .close{display:inline}
+
+@media (prefers-reduced-motion:reduce){*{transition-duration:.01s!important;transition-delay:0s!important}}
